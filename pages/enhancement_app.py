@@ -1,0 +1,102 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.set_page_config(page_title="Mugenuni Enhancement Sim", layout="wide")
+
+# High-Contrast Styling
+st.markdown("""
+    <style>
+    html, body, [class*="ViewContainer"] { font-size: 20px !important; }
+    h1 { font-size: 44px !important; color: #000000 !important; border-bottom: 3px solid #000; }
+    .stMetric { background-color: #ffffff; padding: 25px; border: 4px solid #000000; border-radius: 15px; }
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- SIDEBAR: ENHANCEMENT CONTROLS ---
+st.sidebar.header("🎯 HARVEST TARGETS")
+target_market_size = st.sidebar.slider("Market Ready Test Diameter (mm)", 65.0, 85.0, 75.0, step=1.0)
+target_gsi = st.sidebar.slider("Target Gonad Index (GSI %)", 15.0, 25.0, 20.0, step=1.0)
+
+st.sidebar.divider()
+st.sidebar.header("🧬 BIOLOGICAL DRIVERS")
+# Adults grow slightly slower than juveniles as energy shifts to gonad production
+adult_lgr = st.sidebar.slider("Adult Weekly Growth (mm)", 1.0, 3.0, 2.0, step=0.1)
+ulva_feed_rate = st.sidebar.slider("High-Protein Ulva Feed Rate (% BW)", 3.0, 6.0, 4.5, step=0.1)
+
+# --- CONSTANTS FROM GROW-OUT ---
+entry_size = 60.0 # mm
+urchins_per_raceway = 1770 # Standing crop per raceway at 40% cover
+baseline_gsi = 5.0 # Typical GSI at start of enhancement
+
+# --- SIMULATION ENGINE ---
+weeks = []
+sizes = []
+weights = []
+gonad_weights = []
+weekly_feed = []
+
+current_size = entry_size
+current_week = 0
+
+while current_size <= target_market_size:
+    weeks.append(current_week)
+    sizes.append(current_size)
+    
+    # Adult allometric weight estimation
+    weight_g = 0.0004 * (current_size ** 3)
+    weights.append(weight_g)
+    
+    # Gonad Development: GSI scales linearly as they approach the target market size
+    progress = (current_size - entry_size) / (target_market_size - entry_size) if target_market_size > entry_size else 1
+    current_gsi = baseline_gsi + (progress * (target_gsi - baseline_gsi))
+    gonad_g = weight_g * (current_gsi / 100)
+    gonad_weights.append(gonad_g)
+    
+    # Feed calculation for the whole raceway
+    raceway_biomass_kg = (weight_g * urchins_per_raceway) / 1000
+    feed_kg_wk = raceway_biomass_kg * (ulva_feed_rate / 100) * 7
+    weekly_feed.append(feed_kg_wk)
+    
+    current_size += adult_lgr
+    current_week += 1
+
+# Create the master dataframe
+sim_df = pd.DataFrame({
+    "Enhancement Week": weeks,
+    "Test Diameter (mm)": sizes,
+    "Urchin Weight (g)": weights,
+    "Gonad Yield per Urchin (g)": gonad_weights,
+    "Ulva Needed (kg/wk)": weekly_feed
+})
+
+total_weeks = current_week - 1
+total_ulva = sum(weekly_feed)
+final_gonad_total_kg = (gonad_weights[-1] * urchins_per_raceway) / 1000
+
+# --- MAIN INTERFACE ---
+st.title("🌊 MUGENUNI: GONAD ENHANCEMENT PHASE")
+st.write(f"### Modeling one raceway from **60 mm** entry to **{target_market_size} mm** harvest.")
+
+col1, col2, col3 = st.columns(3)
+col1.metric("WEEKS IN ENHANCEMENT", f"{total_weeks}")
+col2.metric("RACEWAY GONAD YIELD", f"{final_gonad_total_kg:,.1f} kg")
+col3.metric("TOTAL ULVA CONSUMED", f"{total_ulva:,.0f} kg")
+
+st.divider()
+
+tab1, tab2 = st.tabs(["💰 YIELD VS. TIME", "📊 FEED ECONOMICS"])
+
+with tab1:
+    st.write("### Gonad Bulking Trajectory")
+    st.write("Notice how the roe weight increases exponentially as the test diameter expands.")
+    st.line_chart(sim_df.set_index("Enhancement Week")[["Gonad Yield per Urchin (g)"]])
+
+with tab2:
+    st.write("### The Cost of Waiting: Escalating Ulva Demand")
+    st.write("As the urchins grow larger, the baseline biomass required to maintain them drives feed consumption up rapidly.")
+    st.bar_chart(sim_df.set_index("Enhancement Week")["Ulva Needed (kg/wk)"])
+    
+    st.write("### Raw Enhancement Data")
+    display_df = sim_df.copy().round(1)
+    st.dataframe(display_df.set_index("Enhancement Week"), use_container_width=True)
