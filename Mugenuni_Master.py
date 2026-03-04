@@ -14,7 +14,7 @@ st.set_page_config(
 # ==========================================
 # HEADER & HERO SECTION
 # ==========================================
-st.image("logo.png", width=250)
+st.image("logo.jpg", width=250)
 st.title("🌊 MUGENUNI RESEARCH PTY LTD")
 st.title("🌊 MUGENUNI RESEARCH PTY LTD")
 st.subheader("Interactive Commercial Aquaculture Simulation Suite")
@@ -78,4 +78,5 @@ with metric_col4:
     st.metric(label="Capital Break-Even", value="Month 44")
 
 st.caption("© 2026 Mugenuni Research Pty Ltd. Confidential and Proprietary.")
+
 
