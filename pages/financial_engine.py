@@ -137,7 +137,7 @@ with row1_col2:
     st.plotly_chart(fig_opex, use_container_width=True)
 
 # ==========================================
-# FINANCIAL SUMMARY EXPANDER
+# FINANCIAL SUMMARY EXPANDER & EXPORT
 # ==========================================
 with st.expander("View Detailed Financial Summary"):
     st.markdown(f"""
@@ -148,3 +148,18 @@ with st.expander("View Detailed Financial Summary"):
     
     *Note: Simulation assumes a 12-month construction and biological ramp-up phase where OPEX is drawn down without corresponding harvest revenues.*
     """)
+
+st.divider()
+st.subheader("📥 Export Data")
+st.markdown("Download the 60-month cash flow simulation to Microsoft Excel (CSV format).")
+
+# Convert dataframe to CSV
+csv_data = df_cashflow.to_csv(index=False).encode('utf-8')
+
+# Create the download button
+st.download_button(
+    label="Download 5-Year Cash Flow Data (CSV)",
+    data=csv_data,
+    file_name="mugenuni_5_year_cashflow.csv",
+    mime="text/csv",
+)
