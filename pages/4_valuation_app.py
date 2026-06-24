@@ -65,9 +65,9 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Post-Money Valuation", f"${post_money_valuation:,.0f}")
 with col2:
-    st.metric("Investor Equity", f"{investor_equity_pct * 100:.1f}%")
+    st.metric("Investor Equity", f"{investor_equity_pct * 100:,.1f}%")
 with col3:
-    st.metric("Mugenuni (Founders) Equity", f"{founder_equity_pct * 100:.1f}%")
+    st.metric("Mugenuni (Founders) Equity", f"{founder_equity_pct * 100:,.1f}%")
 
 st.divider()
 
@@ -81,7 +81,7 @@ with col5:
 with col6:
     st.metric("Investor ROI", f"{roi_percentage:,.0f}%")
 with col7:
-    st.metric("Cash Multiple (MOIC)", f"{moic:.1f}x")
+    st.metric("Cash Multiple (MOIC)", f"{moic:,.1f}x")
 
 # ==========================================
 # VISUALIZATION

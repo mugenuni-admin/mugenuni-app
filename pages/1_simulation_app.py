@@ -91,17 +91,17 @@ with col1:
     st.metric(label="Time to Target Size", value=f"{week - 1} Weeks")
 with col2:
     final_weight = df["Weight (g)"].iloc[-1]
-    st.metric(label="Final Target Weight", value=f"{final_weight:.1f} g")
+    st.metric(label="Final Target Weight", value=f"{final_weight:,.1f} g")
 with col3:
     total_feed = df["Cumulative Feed (kg)"].iloc[-1]
-    st.metric(label="Total Ulva Required (Per Raceway)", value=f"{total_feed:.0f} kg")
+    st.metric(label="Total Ulva Required (Per Raceway)", value=f"{total_feed:,.0f} kg")
 with col4:
     # Calculate water saved by not running 1.0 exchange the whole time
     total_hours = (week - 1) * 7 * 24
     max_flow_possible = total_hours * base_raceway_vol
     actual_flow = (df["Hourly Flow (L/hr)"] * 7 * 24).sum()
     water_saved_ml = (max_flow_possible - actual_flow) / 1_000_000
-    st.metric(label="Water Saved via Staggered Flow", value=f"{water_saved_ml:.2f} Megaliters")
+    st.metric(label="Water Saved via Staggered Flow", value=f"{water_saved_ml:,.2f} Megaliters")
 
 st.divider()
 
@@ -150,9 +150,9 @@ st.plotly_chart(fig_feed, use_container_width=True)
 # ==========================================
 with st.expander("View Raw Simulation Data"):
     st.dataframe(df.style.format({
-        "Diameter (mm)": "{:.1f}",
-        "Weight (g)": "{:.1f}",
-        "Daily Feed (kg)": "{:.2f}",
-        "Hourly Flow (L/hr)": "{:.0f}",
-        "Cumulative Feed (kg)": "{:.1f}"
+        "Diameter (mm)": "{:,.1f}",
+        "Weight (g)": "{:,.1f}",
+        "Daily Feed (kg)": "{:,.2f}",
+        "Hourly Flow (L/hr)": "{:,.0f}",
+        "Cumulative Feed (kg)": "{:,.1f}"
     }))

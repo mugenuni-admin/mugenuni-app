@@ -94,9 +94,9 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric(label="Total Capital Required (CAPEX + Working)", value=f"${abs(max_drawdown):,.0f}")
 with col2:
-    st.metric(label="Unit Cost per Urchin", value=f"${cost_per_urchin:.2f}")
+    st.metric(label="Unit Cost per Urchin", value=f"${cost_per_urchin:,.2f}")
 with col3:
-    st.metric(label="Steady-State Gross Margin", value=f"{gross_margin_pct:.1f}%")
+    st.metric(label="Steady-State Gross Margin", value=f"{gross_margin_pct:,.1f}%")
 with col4:
     st.metric(label="Capital Break-Even", value=break_even_text)
 

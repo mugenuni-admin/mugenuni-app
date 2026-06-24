@@ -66,8 +66,8 @@ tab1, tab2, tab3 = st.tabs(["🧬 BIOLOGICAL CAPACITY", "💰 FINANCIAL YIELD", 
 with tab1:
     st.write("## Physical Tray Limits (40% Cover)")
     st.write(f"Based on a **60 mm** entry size into the gonad enhancement phase:")
-    st.write(f"* **Usable Space:** {usable_area:.2f} m² per tray")
-    st.write(f"* **Unit Footprint:** {area_per_urchin:.4f} m² per urchin")
+    st.write(f"* **Usable Space:** {usable_area:,.2f} m² per tray")
+    st.write(f"* **Unit Footprint:** {area_per_urchin:,.4f} m² per urchin")
     st.write(f"* **Density Cap:** **{urchins_per_tray} urchins per tray**")
     st.info(f"With {enhancement_raceways} raceways dedicated to this phase, the standing crop is tightly controlled at **{total_in_enhancement:,.0f} units**.")
 
@@ -77,7 +77,7 @@ with tab2:
     with c1:
         st.metric("MONTHLY NET PROFIT", f"${monthly_profit:,.0f}")
     with c2:
-        st.metric("ANNUALIZED ROI", f"{(annual_profit / TOTAL_CAPEX) * 100:.1f}%")
+        st.metric("ANNUALIZED ROI", f"{(annual_profit / TOTAL_CAPEX) * 100:,.1f}%")
         
     st.write("### 5-Year Cash Position")
     months = np.arange(0, 61); cash_flow = [-TOTAL_CAPEX]
@@ -91,7 +91,7 @@ with tab3:
     st.write(f"Adding the **${TOTAL_CAPEX:,.0f}** capital injection brings the total company value to:")
     st.markdown(f"<div class='valuation-box'><h2>Post-Money Valuation: <b>${post_money_val:,.0f}</b></h2></div>", unsafe_allow_html=True)
     
-    st.write(f"### Resulting Investor Equity: **{investor_equity_pct:.1f}%**")
+    st.write(f"### Resulting Investor Equity: **{investor_equity_pct:,.1f}%**")
     
     st.divider()
     st.write("## 5-Year Exit Scenario")

@@ -43,12 +43,12 @@ weekly_ulva_kg = daily_ulva_kg * 7
 
 # --- MAIN INTERFACE ---
 st.title("♻️ MUGENUNI: ENVIRONMENTAL & IMTA ENGINE")
-st.write(f"### Simulating an 11m Raceway ({raceway_vol_L} L) with {total_biomass_kg:.1f} kg of Standing Biomass")
+st.write(f"### Simulating an 11m Raceway ({raceway_vol_L} L) with {total_biomass_kg:,.1f} kg of Standing Biomass")
 
 col1, col2, col3 = st.columns(3)
 col1.metric("FLOW RATE (L/hr)", f"{water_flow_Lph:,.0f}")
-col2.metric("O2 INFLUX (g/hr)", f"{o2_influx_gph:.1f}")
-col3.metric("O2 DEMAND (g/hr)", f"{o2_demand_gph:.1f}")
+col2.metric("O2 INFLUX (g/hr)", f"{o2_influx_gph:,.1f}")
+col3.metric("O2 DEMAND (g/hr)", f"{o2_demand_gph:,.1f}")
 
 st.divider()
 
@@ -57,10 +57,10 @@ tab1, tab2, tab3 = st.tabs(["🫧 OXYGEN DYNAMICS", "🌿 IMTA ULVA LOOP", "⚠�
 with tab1:
     st.write("### Dissolved Oxygen (DO) Buffer")
     demand_pct = (o2_demand_gph / o2_influx_gph) * 100 if o2_influx_gph > 0 else 100
-    st.write(f"At {temp}°C, the biological oxygen demand of the urchins accounts for only **{demand_pct:.1f}%** of the dissolved oxygen provided strictly by the main water exchange.")
+    st.write(f"At {temp}°C, the biological oxygen demand of the urchins accounts for only **{demand_pct:,.1f}%** of the dissolved oxygen provided strictly by the main water exchange.")
     
     if o2_buffer > 0:
-        st.success(f"**Safe Margin:** The system maintains a surplus of **{o2_buffer:.1f} grams/hour** of oxygen, creating a massive safety buffer before accounting for supplementary tray aeration or influent spouts.")
+        st.success(f"**Safe Margin:** The system maintains a surplus of **{o2_buffer:,.1f} grams/hour** of oxygen, creating a massive safety buffer before accounting for supplementary tray aeration or influent spouts.")
     else:
         st.error("**CRITICAL:** Biological oxygen demand exceeds primary influx. High mortality risk.")
 
@@ -70,7 +70,7 @@ with tab2:
     
     
     
-    st.info(f"**Feed Production Target:** To maintain this {total_biomass_kg:.0f}kg standing crop at a 5% daily consumption rate, the IMTA biofilter must continuously produce **{weekly_ulva_kg:.1f} kg of 34% protein Ulva per week**.")
+    st.info(f"**Feed Production Target:** To maintain this {total_biomass_kg:,.0f}kg standing crop at a 5% daily consumption rate, the IMTA biofilter must continuously produce **{weekly_ulva_kg:,.1f} kg of 34% protein Ulva per week**.")
 
 with tab3:
     st.write("### Biogenic Acidification Risk Management")

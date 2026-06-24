@@ -85,13 +85,13 @@ total_roe_raceway_kg = (final_roe * urchins_per_raceway) / 1000
 total_feed = df["Cumulative Feed (kg)"].iloc[-1]
 
 with col1:
-    st.metric(label="Harvest Target Weight", value=f"{final_weight:.1f} g")
+    st.metric(label="Harvest Target Weight", value=f"{final_weight:,.1f} g")
 with col2:
-    st.metric(label="Roe Yield per Urchin (15% GSI)", value=f"{final_roe:.1f} g")
+    st.metric(label="Roe Yield per Urchin (15% GSI)", value=f"{final_roe:,.1f} g")
 with col3:
-    st.metric(label="Total Premium Uni per Raceway", value=f"{total_roe_raceway_kg:.1f} kg")
+    st.metric(label="Total Premium Uni per Raceway", value=f"{total_roe_raceway_kg:,.1f} kg")
 with col4:
-    st.metric(label="Total 34% Ulva Required per Raceway", value=f"{total_feed:.0f} kg")
+    st.metric(label="Total 34% Ulva Required per Raceway", value=f"{total_feed:,.0f} kg")
 
 st.divider()
 
@@ -129,10 +129,10 @@ with row1_col2:
 # ==========================================
 with st.expander("View Raw Enhancement Data"):
     st.dataframe(df.style.format({
-        "Diameter (mm)": "{:.1f}",
-        "Weight (g)": "{:.1f}",
-        "GSI (%)": "{:.1f}",
-        "Roe per Urchin (g)": "{:.1f}",
-        "Daily Feed (kg)": "{:.2f}",
-        "Cumulative Feed (kg)": "{:.1f}"
+        "Diameter (mm)": "{:,.1f}",
+        "Weight (g)": "{:,.1f}",
+        "GSI (%)": "{:,.1f}",
+        "Roe per Urchin (g)": "{:,.1f}",
+        "Daily Feed (kg)": "{:,.2f}",
+        "Cumulative Feed (kg)": "{:,.1f}"
     }))
